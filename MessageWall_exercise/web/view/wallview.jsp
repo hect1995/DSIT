@@ -29,9 +29,7 @@
     
 </script>
 
-<body>
-    <%response.setIntHeader("Refresh", 5);%> <%--auto refresh every 5 seconds--%>
-    
+<body> 
     <h3>user: <em><%=user.getUser()%></em>
         <a href=logout.do>[Close session]</a></h3>
 
