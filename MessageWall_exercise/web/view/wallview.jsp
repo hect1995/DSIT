@@ -15,18 +15,20 @@
 </head>
 
 <%
+    //response.setIntHeader("Refresh",5);
     UserAccess user = (UserAccess)request.getSession().getAttribute("useraccess");
     MessageWall_and_RemoteLogin_Impl messagewall =
         (MessageWall_and_RemoteLogin_Impl) getServletContext().getAttribute("remoteLogin");
     List <Message> list_mes = messagewall.getAllMessages();
     Iterator<Message> iter_mes = list_mes.iterator();
 %>
-
-<script>
     
-    
-    
-    
+<script languages="javascript">
+setTimeout(function(){
+    <form action="refresh.do"></form>
+    },3000)
+location.reload(true)
+       
 </script>
 
 <body> 

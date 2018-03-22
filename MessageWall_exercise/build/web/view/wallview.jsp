@@ -21,12 +21,13 @@
     List <Message> list_mes = messagewall.getAllMessages();
     Iterator<Message> iter_mes = list_mes.iterator();
 %>
-
-<script>
     
-    
-    
-    
+<script languages="javascript">
+setInterval(my_function, 10000);
+function my_function() {
+    document.getElementsByName('refresh_button')[0].click();
+}
+       
 </script>
 
 <body> 
@@ -100,6 +101,7 @@
 <HR WIDTH="100%" SIZE="2">
 
 <form action="refresh.do" method=POST>
-    <input type=submit value="Refresh wall view message"></form>
+    <input type=submit value="Refresh wall view message" name="refresh_button">
+</form>
 
 </body>
