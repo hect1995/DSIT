@@ -4,9 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import publisher.Publisher;
 import subscriber.Subscriber;
+import subscriber.SubscriberImpl;
 import topicmanager.TopicManager;
 
 public class ClientSwing {
@@ -26,6 +29,7 @@ public class ClientSwing {
     public ClientSwing(TopicManager topicManager) {
         my_subscriptions = new HashMap<String,Subscriber>();
         publisher = null;
+        this.publisherTopic = ""; //needs to be initialized for laer on
         this.topicManager = topicManager;
     }
     public void createAndShowGUI() {
@@ -96,27 +100,62 @@ public class ClientSwing {
 
     class showTopicsHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            Set<String> topics = topicManager.topics();
+            Iterator iter = topics.iterator();
+            topic_list_TextArea.setText("");
+            while(iter.hasNext()){
+                String topic = (String) iter.next();
+                topic_list_TextArea.append(topic + "\n");
+            }
         }
     }
     class newPublisherHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            if(!publisherTopic.equals("")){ // means the publisher already has a 
+                // topic so he needs to change it (only ne topic per publisher)
+                int num_publ_topic = topicManager.removePublisherFromTopic(publisherTopic);
+                messages_TextArea.append("You are no longer subscribed to: "+publisherTopic);
+                if (num_publ_topic == 0){ //no publisher for the topic
+                    publisher.publish(publisherTopic,"PUBLISHER");
+                }              
+            } // now we can add the new topic
+            publisherTopic = argument_TextField.getText(); // what is written
+            publisher = topicManager.addPublisherToTopic(publisherTopic); // the
+            // publisher used later on
+            publisher_TextArea.setText(publisherTopic +"\n");
+            argument_TextField.setText(""); // empty for next writting
         }
     }
     class newSubscriberHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            String topic = argument_TextField.getText();
+            if(topicManager.isTopic(topic)){ // check if it is a topic
+                SubscriberImpl subscr_new = new SubscriberImpl(ClientSwing.this);
+                topicManager.subscribe(topic, subscr_new);
+            }
+            else{
+                messages_TextArea.append("This topic does not exist");
+            }          
         }
     }
     class UnsubscribeHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            String topic = argument_TextField.getText();
+            if(topicManager.isTopic(topic)){ // check if it is a topic
+                SubscriberImpl subscr_new = new SubscriberImpl(ClientSwing.this);
+                topicManager.unsubscribe(topic, subscr_new);
+                subscr_new.onClose(topic, "SUBSCRIBER");
+            }else{
+                messages_TextArea.append("This topic does not exist");
+            }
         }
     }
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //...
+            publisherTopic = argument_TextField.getText();
+            String topic = publisher_TextArea.getText();
+            publisher.publish(topic, publisherTopic);
+            //subscr_new.onEvent(topic, event);
         }
     }
     class CloseAppHandler implements ActionListener {
