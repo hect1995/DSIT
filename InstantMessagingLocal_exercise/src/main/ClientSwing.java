@@ -136,7 +136,6 @@ public class ClientSwing {
                 my_subscriptions.put(topic, subscr_new);
                 Set <String> topics = my_subscriptions.keySet();
                 Iterator iter = topics.iterator();
-                my_subscriptions_TextArea.setText("");
                 while(iter.hasNext()){
                     String subscription = (String)iter.next();
                     my_subscriptions_TextArea.append(subscription+"\n");                   
@@ -144,7 +143,8 @@ public class ClientSwing {
             }
             else{
                 messages_TextArea.append("This topic does not exist");
-            }          
+            }
+            argument_TextField.setText(""); // empty for next writting
         }
     }
     class UnsubscribeHandler implements ActionListener{
@@ -156,7 +156,6 @@ public class ClientSwing {
                 my_subscriptions.remove(topic);
                 Set <String> topics = my_subscriptions.keySet();
                 Iterator iter = topics.iterator();
-                my_subscriptions_TextArea.setText("");
                 while(iter.hasNext()){
                     String subscription = (String)iter.next();
                     my_subscriptions_TextArea.append(subscription+"\n");                   
@@ -164,12 +163,14 @@ public class ClientSwing {
             }else{
                 messages_TextArea.append("This topic does not exist");
             }
+            argument_TextField.setText(""); // empty for next writting
         }
     }
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String event = argument_TextField.getText();
             publisher.publish(publisherTopic, event);
+            argument_TextField.setText(""); // empty for next writting
         }
     }
     class CloseAppHandler implements ActionListener {
