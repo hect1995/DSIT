@@ -37,15 +37,14 @@ public class TopicManagerImpl implements TopicManager {
         PublisherAdmin publisher_admin = (PublisherAdmin) topicMap.get(topic);
         int number_pub_bytop = publisher_admin.decPublishers();
         if (number_pub_bytop == 0){
-            topicMap.remove(publisher_admin);
+            topicMap.remove(topic);
         }
         return number_pub_bytop;
     }
     public boolean subscribe(String topic, Subscriber subscriber){
         boolean to_return= false;
         if(this.isTopic(topic)){
-            PublisherAdmin publisher_admin = (PublisherAdmin) topicMap.get(topic);
-            publisher_admin.attachSubscriber(subscriber);
+            topicMap.get(topic).attachSubscriber(subscriber);
             to_return= true;
         }
         return to_return;
@@ -53,8 +52,7 @@ public class TopicManagerImpl implements TopicManager {
     public boolean unsubscribe(String topic, Subscriber subscriber){
         boolean to_return= false;
         if(this.isTopic(topic)){
-            PublisherAdmin publisher_admin = (PublisherAdmin) topicMap.get(topic);
-            publisher_admin.detachSubscriber(subscriber);
+            topicMap.get(topic).detachSubscriber(subscriber);
             subscriber.onClose(topic, "SUBSCRIBER");
             to_return= true;
         }

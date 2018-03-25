@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import publisher.Publisher;
+import publisher.PublisherAdmin;
 import subscriber.Subscriber;
 import subscriber.SubscriberImpl;
 import topicmanager.TopicManager;
@@ -130,8 +131,16 @@ public class ClientSwing {
         public void actionPerformed(ActionEvent e) {
             String topic = argument_TextField.getText();
             if(topicManager.isTopic(topic)){ // check if it is a topic
-                SubscriberImpl subscr_new = new SubscriberImpl(ClientSwing.this);
+                Subscriber subscr_new = new SubscriberImpl(ClientSwing.this);
                 topicManager.subscribe(topic, subscr_new);
+                my_subscriptions.put(topic, subscr_new);
+                Set <String> topics = my_subscriptions.keySet();
+                Iterator iter = topics.iterator();
+                my_subscriptions_TextArea.setText("");
+                while(iter.hasNext()){
+                    String subscription = (String)iter.next();
+                    my_subscriptions_TextArea.append(subscription+"\n");                   
+                }               
             }
             else{
                 messages_TextArea.append("This topic does not exist");
@@ -142,9 +151,16 @@ public class ClientSwing {
         public void actionPerformed(ActionEvent e) {
             String topic = argument_TextField.getText();
             if(topicManager.isTopic(topic)){ // check if it is a topic
-                SubscriberImpl subscr_new = new SubscriberImpl(ClientSwing.this);
-                topicManager.unsubscribe(topic, subscr_new);
-                subscr_new.onClose(topic, "SUBSCRIBER");
+                Subscriber subscriber = my_subscriptions.get(topic);
+                topicManager.unsubscribe(topic, subscriber);
+                my_subscriptions.remove(topic);
+                Set <String> topics = my_subscriptions.keySet();
+                Iterator iter = topics.iterator();
+                my_subscriptions_TextArea.setText("");
+                while(iter.hasNext()){
+                    String subscription = (String)iter.next();
+                    my_subscriptions_TextArea.append(subscription+"\n");                   
+                }
             }else{
                 messages_TextArea.append("This topic does not exist");
             }
@@ -152,10 +168,8 @@ public class ClientSwing {
     }
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            publisherTopic = argument_TextField.getText();
-            String topic = publisher_TextArea.getText();
-            publisher.publish(topic, publisherTopic);
-            //subscr_new.onEvent(topic, event);
+            String event = argument_TextField.getText();
+            publisher.publish(publisherTopic, event);
         }
     }
     class CloseAppHandler implements ActionListener {
