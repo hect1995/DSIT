@@ -6,6 +6,7 @@
 <%@ page import="entity.Product"%>
 <%@ page import="java.util.Iterator"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.text.*" %>
 <%@ page import="cart.*" %>
 
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
@@ -61,12 +62,19 @@
                 </form>
             </a>
         </p>
-        <table id="tableViewCart">
+        <table id="tableViewCart" style="width: 100%; align-self: center">
+            <style>
+                td, th {
+                    border: 1px solid #dddddd;
+                    text-align: center;
+                    padding: 0px;
+                }
+            </style>
             <tr>
-                <th>product</th>
-                <th>name</th>
-                <th>price</th>
-                <th>quantity</th>
+                <td>product</td>
+                <td>name</td>
+                <td>price</td>
+                <td>quantity</td>
             </tr>
             <%
             List<ShoppingCartItem> list_items= shop_cart.getItems();    
@@ -77,12 +85,12 @@
                 if(shop_it.getQuantity()>0){
             %>
             <tr>
-                <th><img src="img/products/<%=product.getName()%>.png"></th>
-                <th>
+                <td><img src="img/products/<%=product.getName()%>.png"></td>
+                <td>
                     <b><p><%=product.getName()%></p></b>
                     <p><%=product.getDescription()%></p>
-                </th>
-                <th><%=product.getPrice()%>€ unit</th>
+                </td>
+                <td><%=product.getPrice()%>€ unit</td>
                 <th>
                     <form name="updateForm" action="updatecart.do" method="post">
                         <input type="hidden" name="cart" value="<%=shop_cart%>">
@@ -98,7 +106,10 @@
             }
             %>       
         </table>
-        <b><p>Total amount: <%=shop_cart.getTotal()%></p></b>
+        <%
+            DecimalFormat df = new DecimalFormat("#.##");
+        %>
+        <p>Total amount: <%=df.format(shop_cart.getTotal())%> €</p>
             
     </body>
 </html>
