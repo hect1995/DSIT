@@ -20,7 +20,7 @@
 
     <table width="50%" border="1" bordercolordark="#000000" bordercolorlight="#FFFFFF" cellpadding="3" cellspacing="0">
 
-        <tr> 
+        <tr> <font size="2" face="Verdana">
 
         <% // means java
         List<Category> categories = (List<Category>)request.getAttribute("categories");
@@ -33,22 +33,11 @@
                 <a href="category.do?categoryid=<%=category.getId()%>">
                     <img src="img/categories/<%=category.getName()%>.jpg"
                          alt="<%=category.getName()%>" >
+                    <%=category.getName()%>
                 </a>
         </td>
         <%}%>
-        </tr>
-        <tr>
-        <%
-            for(Category category : categories){
-        %>
-         <td>   
-            <a href="category.do?categoryid=<%=category.getId()%>">
-                <%=category.getName()%>
-            </a>
-        </td>
- 
-        <% } %>
-        </tr>
+        </font> </tr>
 
     </table>
 
