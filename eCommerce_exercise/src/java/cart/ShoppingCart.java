@@ -49,7 +49,7 @@ public class ShoppingCart {
         while(iter.hasNext()){
             ShoppingCartItem shop_it= iter.next();
             if(shop_it.getProduct().getId()==product.getId()){
-                if(quantity_item >=0){
+                if(quantity_item >0){
                     shop_it.quantityProd = quantity_item;      
                 }else if(quantity_item == 0){
                     //cart_items.remove(shop_it);

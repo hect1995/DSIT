@@ -27,12 +27,9 @@ public class updatecartAction extends Action{
         shoppingCart = (ShoppingCart) req.getSession().getAttribute("shoppingCart");
         String product_id = req.getParameter("productId");
         String quantity = req.getParameter("quantity");
-        System.out.println(product_id+"IIIIIIIIIIIIIII");
-        System.out.println(quantity+"HHHHHHHHHHHHHHHHH");
 
         Product productbyId = (Product) productModel.selectbyId(Integer.parseInt(product_id));
         shoppingCart.update(productbyId, quantity);
-        System.out.println(shoppingCart.getNumberOfItems()+"WWWWWWWWWWWWWWW");
         req.getSession().setAttribute("shoppingCart", shoppingCart);
         String string_category_id= req.getParameter("categoryid");
         int category_id = Integer.parseInt(string_category_id);

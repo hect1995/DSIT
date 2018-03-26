@@ -82,7 +82,6 @@
             while(iter.hasNext()){
                 ShoppingCartItem shop_it= iter.next(); 
                 Product product = shop_it.getProduct();
-                if(shop_it.getQuantity()>0){
             %>
             <tr>
                 <td><img src="img/products/<%=product.getName()%>.png"></td>
@@ -102,7 +101,6 @@
                 </th>
             </tr>
             <%
-                }
             }
             %>       
         </table>
