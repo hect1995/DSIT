@@ -55,7 +55,8 @@ public class ShoppingCart {
                     //cart_items.remove(shop_it);
                     shocartItems.remove(shop_it);
                 }
-            }
+                break;
+            }          
         }
     }
     public synchronized List<ShoppingCartItem> getItems(){

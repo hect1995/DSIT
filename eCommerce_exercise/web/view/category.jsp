@@ -23,7 +23,7 @@
         
     </head>
     <body>
-        <h1>Products available for category: <%=request.getAttribute("categoryName")%> </h1>
+        <h1>Products available for category: <%=request.getSession().getAttribute("categoryName")%> </h1>
         <p>
         <%
             int nItems;
@@ -54,7 +54,7 @@
                             </th>
                         </tr>
                         <% // means java
-                            List<Category> categories = (List<Category>)request.getAttribute("categories");
+                            List<Category> categories = (List<Category>)request.getSession().getAttribute("categories");
                             for(Category category : categories){
                         %>
                         <tr>    
@@ -70,7 +70,7 @@
                     <table style="width: 100%; text-align: center" border="0">
                         <tr>
                         <% // means java
-                            List<Product> products = (List<Product>)request.getAttribute("list_elements_category");
+                            List<Product> products = (List<Product>)request.getSession().getAttribute("list_elements_category");
 
                             for(Product product : products){
                         %>

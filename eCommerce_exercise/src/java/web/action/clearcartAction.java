@@ -32,11 +32,11 @@ public class clearcartAction extends Action{
         String cat_id_aux =  req.getParameter("categoryid");
         int cat_id = Integer.parseInt(cat_id_aux);
         req.setAttribute("categoryid", cat_id);
-        req.setAttribute("categories", categoryModel.retrieveAll());
-        Category cat= categoryModel.retrievebyId(cat_id);
-        req.setAttribute("categoryName", cat.getName());
-        List <Product> elements_of_category= productModel.selectbyCat(cat);
-        req.setAttribute("list_elements_category", elements_of_category);
+        //req.setAttribute("categories", categoryModel.retrieveAll());
+        //Category cat= categoryModel.retrievebyId(cat_id);
+        //req.setAttribute("categoryName", cat.getName());
+        //List <Product> elements_of_category= productModel.selectbyCat(cat);
+        //req.setAttribute("list_elements_category", elements_of_category);
         req.getSession().setAttribute("numberItems",0);
 
 

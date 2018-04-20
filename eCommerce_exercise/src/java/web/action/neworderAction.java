@@ -52,11 +52,11 @@ public class neworderAction extends Action{
         int num_it = shoppingCart.getNumberOfItems();
         req.getSession().setAttribute("numberItems", num_it);
         Category catProduct= categoryModel.retrievebyId(category_id);
-        String nameCategory = catProduct.getName();
-        req.setAttribute("categoryName", nameCategory); 
-        req.setAttribute("categories", categoryModel.retrieveAll());
-        List <Product> elements_of_category= productModel.selectbyCat(catProduct);
-        req.setAttribute("list_elements_category", elements_of_category);
+        //String nameCategory = catProduct.getName();
+        //req.setAttribute("categoryName", nameCategory); 
+        // req.setAttribute("categories", categoryModel.retrieveAll());
+        //List <Product> elements_of_category= productModel.selectbyCat(catProduct);
+        //req.setAttribute("list_elements_category", elements_of_category);
         
 
         
