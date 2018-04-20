@@ -117,7 +117,7 @@ public class ClientSwing {
             if(!publisherTopic.equals("")){ // means the publisher already has a 
                 // topic so he needs to change it (only ne topic per publisher)
                 int num_publ_topic = topicManager.removePublisherFromTopic(publisherTopic);
-                messages_TextArea.append("You are no longer subscribed to: "+publisherTopic+ "\n");
+                messages_TextArea.append("You are no longer publisher to: "+publisherTopic+ "\n");
                 if (num_publ_topic == 0){ //no publisher for the topic
                     publisher.publish(publisherTopic,"PUBLISHER");
                 }              
@@ -145,7 +145,7 @@ public class ClientSwing {
                 }               
             }
             else{
-                messages_TextArea.append("This topic does not exist");
+                messages_TextArea.append("This topic does not exist \n");
             }
             argument_TextField.setText(""); // empty for next writting        
         }
@@ -155,25 +155,33 @@ public class ClientSwing {
             String topic = argument_TextField.getText();
             if(topicManager.isTopic(topic)){ // check if it is a topic
                 Subscriber subscriber = my_subscriptions.get(topic);
-                topicManager.unsubscribe(topic, subscriber);
-                my_subscriptions.remove(topic);
-                my_subscriptions_TextArea.setText("");
-                Set <String> topics = my_subscriptions.keySet();
-                Iterator iter = topics.iterator();
-                while(iter.hasNext()){
-                    String subscription = (String)iter.next();
-                    my_subscriptions_TextArea.append(subscription+"\n");                   
+                if (subscriber != null){ // he was previously subscribed
+                    topicManager.unsubscribe(topic, subscriber);
+                    my_subscriptions.remove(topic);
+                    my_subscriptions_TextArea.setText("");
+                    Set <String> topics = my_subscriptions.keySet();
+                    Iterator iter = topics.iterator();
+                    while(iter.hasNext()){
+                        String subscription = (String)iter.next();
+                        my_subscriptions_TextArea.append(subscription+"\n");                   
+                    }
+                }else{ // he was not subscribed
+                    messages_TextArea.append("You were not subscribed to this topic \n");
                 }
             }else{
-                messages_TextArea.append("This topic does not exist");
+                messages_TextArea.append("This topic does not exist \n");
             }
             argument_TextField.setText(""); // empty for next writting        
         }
     }
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            String event = argument_TextField.getText();
-            publisher.publish(publisherTopic, event);
+            if(!publisherTopic.equals("")){
+                String event = argument_TextField.getText();
+                publisher.publish(publisherTopic, event);            
+            }else{ // when he is no Publisher and tries to post
+                messages_TextArea.append("You can't post if you are no Publisher \n");
+            }
             argument_TextField.setText(""); // empty for next writting        
         }
     }
@@ -201,6 +209,14 @@ public class ClientSwing {
         public void windowOpened(WindowEvent e) {}
         public void windowClosing(WindowEvent e) {
             //...
+            topicManager.removePublisherFromTopic(publisherTopic);
+            Iterator iter = my_subscriptions.keySet().iterator();
+            Iterator subs = my_subscriptions.values().iterator();
+            while(iter.hasNext()){
+                String key = (String) iter.next();
+                Subscriber subscrib= (Subscriber) subs.next();
+                topicManager.unsubscribe(key, subscrib);               
+            }
             System.out.println("app closed");
             System.exit(0);
         }
