@@ -6,13 +6,13 @@ import publisher.Publisher;
 import publisher.PublisherStub;
 import subscriber.Subscriber;
 import webSocketService.WebSocketClient;
-
+// to complete it
 public class TopicManagerStub implements TopicManager {
 
   public String user;
 
   public TopicManagerStub(String user) {
-    WebSocketClient.newInstance();
+    WebSocketClient.newInstance(); //obre conexio amb server
     this.user = user;
   }
 
@@ -21,43 +21,31 @@ public class TopicManagerStub implements TopicManager {
   }
 
   public Publisher addPublisherToTopic(String topic) {
-
-    //...
-    return null;
-
+    apiREST_TopicManager.addPublisherToTopic(topic);
+    Publisher new_publish= new PublisherStub(topic);   
+    return new_publish;
   }
 
   public int removePublisherFromTopic(String topic) {
-
-    //...
-    return -1;
-
+    return apiREST_TopicManager.removePublisherFromTopic(topic);
   }
 
   public boolean isTopic(String topic_name) {
-
-    //...
-    return false;
-
+      return apiREST_TopicManager.isTopic(topic_name);
   }
 
   public Set<String> topics() {
-
-    //...
-    return null;
+    return apiREST_TopicManager.topics();
 
   }
 
   public boolean subscribe(String topic, Subscriber subscriber) {
-
-    //...
+    WebSocketClient.addSubscriber(topic, subscriber);
     return true;
-
   }
 
   public boolean unsubscribe(String topic, Subscriber subscriber) {
-
-    //...
+     WebSocketClient.removeSubscriber(topic);
     return true;
 
   }

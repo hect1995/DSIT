@@ -19,12 +19,12 @@ public class SubscriberImpl implements Subscriber {
   }
 
   @Override
-  public void onEvent(String topic, String event) {
+  public void onEvent(String topic, String event) { //cretae new subs
     Gson gson = new Gson();
     MyEvent myEvent = new MyEvent();
     myEvent.topic = topic;
     myEvent.content = event;
-    String json = gson.toJson(myEvent);
+    String json = gson.toJson(myEvent); //object json of new object
     try {
       session.getBasicRemote().sendText(json);
     } catch (IOException ex) {
@@ -38,12 +38,12 @@ public class SubscriberImpl implements Subscriber {
     MySubscriptionClose mySubsClose = new MySubscriptionClose();
     mySubsClose.topic = topic;
     if (cause.equals("PUBLISHER")) {
-      mySubsClose.cause = MySubscriptionClose.Cause.PUBLISHER;
+      mySubsClose.cause = MySubscriptionClose.Cause.PUBLISHER; //publisher deixa de serho
     }
     else{
-      mySubsClose.cause = MySubscriptionClose.Cause.SUBSCRIBER;
+      mySubsClose.cause = MySubscriptionClose.Cause.SUBSCRIBER; //el subs es desubscriu
     }
-    String json = gson.toJson(mySubsClose);
+    String json = gson.toJson(mySubsClose); //json instatntiate the close
     try {
       session.getBasicRemote().sendText(json);
     } catch (IOException ex) {

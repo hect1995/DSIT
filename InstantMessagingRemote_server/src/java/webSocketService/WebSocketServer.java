@@ -16,7 +16,7 @@ import subscriber.SubscriberImpl;
 import util.MySubscriptionRequest;
 import util.Global;
 
-@ServerEndpoint("/ws")
+@ServerEndpoint("/ws") //obres un punt final on client tenciara
 public class WebSocketServer {
   
   @Inject

@@ -12,6 +12,8 @@ import main.ClientSwing;
  *
  * @author juanluis
  */
+
+// CLIENT
 public class SubscriberImpl implements Subscriber {
 
   private JTextArea messages_TextArea;

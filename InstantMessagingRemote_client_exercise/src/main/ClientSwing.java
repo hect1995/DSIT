@@ -5,12 +5,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import publisher.Publisher;
 import subscriber.Subscriber;
 import topicmanager.TopicManager;
 import topicmanager.TopicManagerStub;
-
+// the same as the local but we need to change the close button as it is
+// individual among usrs
 public class ClientSwing {
 
     public Map<String,Subscriber> my_subscriptions;
@@ -28,6 +31,7 @@ public class ClientSwing {
     public ClientSwing(TopicManager topicManager) {
         my_subscriptions = new HashMap<String,Subscriber>();
         publisher = null;
+        publisherTopic = "";
         this.topicManager = topicManager;
     }
     public void createAndShowGUI() {
@@ -99,32 +103,91 @@ public class ClientSwing {
 
     class showTopicsHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            Set<String> topics = topicManager.topics();
+            Iterator iter = topics.iterator();
+            topic_list_TextArea.setText("");
+            while(iter.hasNext()){
+                String topic = (String) iter.next();
+                topic_list_TextArea.append(topic + "\n");
+            }        
         }
     }
     class newPublisherHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            if(!publisherTopic.equals("")){ // means the publisher already has a 
+                // topic so he needs to change it (only ne topic per publisher)
+                int num_publ_topic = topicManager.removePublisherFromTopic(publisherTopic);
+                messages_TextArea.append("You are no longer subscribed to: "+publisherTopic+ "\n");
+                if (num_publ_topic == 0){ //no publisher for the topic
+                    publisher.publish(publisherTopic,"PUBLISHER");
+                }              
+            } // now we can add the new topic
+            publisherTopic = argument_TextField.getText(); // what is written
+            publisher = topicManager.addPublisherToTopic(publisherTopic); // the
+            // publisher used later on
+            publisher_TextArea.setText(publisherTopic +"\n");
+            argument_TextField.setText(""); // empty for next writting        
         }
     }
     class newSubscriberHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            String topic = argument_TextField.getText();
+            if(topicManager.isTopic(topic)){ // check if it is a topic
+                Subscriber subscr_new = new SubscriberImpl(ClientSwing.this);
+                topicManager.subscribe(topic, subscr_new);
+                my_subscriptions_TextArea.setText("");
+                my_subscriptions.put(topic, subscr_new);
+                Set <String> topics = my_subscriptions.keySet();
+                Iterator iter = topics.iterator();
+                while(iter.hasNext()){
+                    String subscription = (String)iter.next();
+                    my_subscriptions_TextArea.append(subscription+"\n");                   
+                }               
+            }
+            else{
+                messages_TextArea.append("This topic does not exist");
+            }
+            argument_TextField.setText(""); // empty for next writting        
         }
     }
     class UnsubscribeHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            String topic = argument_TextField.getText();
+            if(topicManager.isTopic(topic)){ // check if it is a topic
+                Subscriber subscriber = my_subscriptions.get(topic);
+                topicManager.unsubscribe(topic, subscriber);
+                my_subscriptions.remove(topic);
+                my_subscriptions_TextArea.setText("");
+                Set <String> topics = my_subscriptions.keySet();
+                Iterator iter = topics.iterator();
+                while(iter.hasNext()){
+                    String subscription = (String)iter.next();
+                    my_subscriptions_TextArea.append(subscription+"\n");                   
+                }
+            }else{
+                messages_TextArea.append("This topic does not exist");
+            }
+            argument_TextField.setText(""); // empty for next writting        
         }
     }
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //...
+            String event = argument_TextField.getText();
+            publisher.publish(publisherTopic, event);
+            argument_TextField.setText(""); // empty for next writting        
         }
     }
     class CloseAppHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //...
+            //TODO: eliinarme com a Publisher i eliminar les meves subscripcions
+            topicManager.removePublisherFromTopic(publisherTopic);
+            Iterator iter = my_subscriptions.keySet().iterator();
+            Iterator subs = my_subscriptions.values().iterator();
+            while(iter.hasNext()){
+                String key = (String) iter.next();
+                Subscriber subscrib= (Subscriber) subs.next();
+                topicManager.unsubscribe(key, subscrib);               
+            }
             System.out.println("app closed");
             System.exit(0);
         }

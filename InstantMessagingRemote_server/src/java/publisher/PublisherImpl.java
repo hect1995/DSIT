@@ -1,10 +1,12 @@
 package publisher;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import javax.websocket.Session;
 import subscriber.Subscriber;
 import subscriber.SubscriberImpl;
+import util.MySubscriptionClose;
 
 public class PublisherImpl implements PublisherAdmin, Publisher {
 
@@ -20,32 +22,51 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
 
   @Override
   public int incPublishers() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    return ++numPublishers;
   }
 
   @Override
   public int decPublishers() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    return --numPublishers;
   }
 
   @Override
   public void attachSubscriber(Subscriber subscriber) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    subscriberSet.add(subscriber);
   }
 
   @Override
   public void detachSubscriber(Subscriber subscriber) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    subscriberSet.remove(subscriber); // not sure about this one
   }
 
   @Override
   public void detachAllSubscribers() {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      Iterator iter = subscriberSet.iterator();
+      while(iter.hasNext()){
+          Subscriber subs = (Subscriber) iter.next();
+          subs.onClose(topic, MySubscriptionClose.Cause.PUBLISHER.name());
+      }
+    subscriberSet.clear();
   }
 
   @Override
   public void publish(String topic, String event) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Iterator itr = this.subscriberSet.iterator();
+        if(event.equals("PUBLISHER")){
+            while(itr.hasNext()) {
+                Subscriber subs = (Subscriber) itr.next();
+                subs.onClose(topic, event);
+            }
+            this.detachAllSubscribers();
+            this.numPublishers = 0;
+        }
+        else{
+            while(itr.hasNext()) {
+                Subscriber subs = (Subscriber) itr.next();
+                subs.onEvent(topic, event);
+            } 
+        }  
   }
   
   public Subscriber subscriber(Session session) {
