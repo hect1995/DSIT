@@ -107,7 +107,7 @@ public class ClientSwing {
   private void clientSetup() {
     
       //this is where you restore the user profile
-      //...
+      
     
   }
 

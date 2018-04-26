@@ -64,7 +64,7 @@ public class WebSocketClient {
     //an exception, but it does not matter, the exception is hiden.
 
     try {
-      Message the_message = gson.fromJson(message, Message.class);
+      Message the_message = gson.fromJson(message, Message.class); //come from notifyNewMessage
       
       //...
       

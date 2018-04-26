@@ -15,6 +15,7 @@
 </head>
 
 <%
+    //response.setIntHeader("Refresh",5);
     UserAccess user = (UserAccess)request.getSession().getAttribute("useraccess");
     MessageWall_and_RemoteLogin_Impl messagewall =
         (MessageWall_and_RemoteLogin_Impl) getServletContext().getAttribute("remoteLogin");
@@ -23,10 +24,10 @@
 %>
     
 <script languages="javascript">
-setInterval(my_function, 10000);
-function my_function() {
-    document.getElementsByName('refresh_button')[0].click();
-}
+setTimeout(function(){
+    <form action="refresh.do"></form>
+    },3000)
+location.reload(true)
        
 </script>
 
@@ -101,7 +102,6 @@ function my_function() {
 <HR WIDTH="100%" SIZE="2">
 
 <form action="refresh.do" method=POST>
-    <input type=submit value="Refresh wall view message" name="refresh_button">
-</form>
+    <input type=submit value="Refresh wall view message"></form>
 
 </body>
