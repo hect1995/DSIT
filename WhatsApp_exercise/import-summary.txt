@@ -1,0 +1,117 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .idea/
+* .idea/workspace.xml
+* app/
+* app/build.gradle
+* app/libs/
+* app/libs/tyrus-standalone-client-1.3.3.jar
+* app/src/
+* app/src/main/
+* app/src/main/AndroidManifest.xml
+* app/src/main/java/
+* app/src/main/java/edu/
+* app/src/main/java/edu/upc/
+* app/src/main/java/edu/upc/whatsapp/
+* app/src/main/java/edu/upc/whatsapp/_GlobalState.java
+* app/src/main/java/edu/upc/whatsapp/a_WelcomeActivity.java
+* app/src/main/java/edu/upc/whatsapp/adapter/
+* app/src/main/java/edu/upc/whatsapp/adapter/MyAdapter_messages.java
+* app/src/main/java/edu/upc/whatsapp/adapter/MyAdapter_users.java
+* app/src/main/java/edu/upc/whatsapp/b_LoginActivity.java
+* app/src/main/java/edu/upc/whatsapp/c_RegistrationActivity.java
+* app/src/main/java/edu/upc/whatsapp/comms/
+* app/src/main/java/edu/upc/whatsapp/comms/Comms.java
+* app/src/main/java/edu/upc/whatsapp/comms/DateSerializerDeserializer.java
+* app/src/main/java/edu/upc/whatsapp/comms/RPC.java
+* app/src/main/java/edu/upc/whatsapp/d_UsersListActivity.java
+* app/src/main/java/edu/upc/whatsapp/e_MessagesActivity.java
+* app/src/main/java/edu/upc/whatsapp/service/
+* app/src/main/java/edu/upc/whatsapp/service/PushService.java
+* app/src/main/java/entity/
+* app/src/main/java/entity/Message.java
+* app/src/main/java/entity/User.java
+* app/src/main/java/entity/UserInfo.java
+* app/src/main/res/
+* app/src/main/res/drawable/
+* app/src/main/res/drawable/app_logo.jpg
+* app/src/main/res/drawable/background_picture.png
+* app/src/main/res/drawable/bubble_green.9.png
+* app/src/main/res/drawable/bubble_yellow.9.png
+* app/src/main/res/drawable/shape_whatsapp_date.xml
+* app/src/main/res/layout/
+* app/src/main/res/layout/a_welcome.xml
+* app/src/main/res/layout/b_login.xml
+* app/src/main/res/layout/c_registration.xml
+* app/src/main/res/layout/d_userslist.xml
+* app/src/main/res/layout/e_messages.xml
+* app/src/main/res/layout/row_twotextviews.xml
+* app/src/main/res/layout/row_whatsapp_left_bubble.xml
+* app/src/main/res/layout/row_whatsapp_right_bubble.xml
+* app/src/main/res/values/
+* app/src/main/res/values/colors.xml
+* app/src/main/res/values/strings.xml
+* build.gradle
+* gradle/
+* gradle/wrapper/
+* gradle/wrapper/gradle-wrapper.jar
+* gradle/wrapper/gradle-wrapper.properties
+* gradlew
+* gradlew.bat
+* settings.gradle
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+gson-2.2.4.jar => com.google.code.gson:gson:2.2.4
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+gson-2.2.4.jar => version 2.2.4 in com.google.code.gson:gson:2.2.4
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* libs/tyrus-standalone-client-1.3.3.jar => app/libs/tyrus-standalone-client-1.3.3.jar
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

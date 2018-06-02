@@ -1,0 +1,4 @@
+#Sat Jun 02 16:07:24 CEST 2018
+base.0=/Users/hectoresteban/Documents/MET/DSIT/DSIT/WhatsApp_exercise/app/build/intermediates/transforms/dexMerger/debug/7
+path.0=classes.dex
+renamed.0=classes.dex
